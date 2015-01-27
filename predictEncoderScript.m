@@ -1,7 +1,14 @@
 %% loading
-load '../videos/natural_movies_20s_clips_nogamma_frames.mat';
-addpath(genpath('/Users/wjj/Dropbox/research/uc/palmer/learners/'));
+videos_fname = 'natural_movies_20s_clips_nogamma_frames.mat';
+load(strcat('/home/wjj/prediction-project/videos/', videos_fname));
+addpath(genpath('/home/wjj/prediction-project/dlt'));
+addpath(genpath('/home/wjj/prediction-project/pe'));
+save_folder = '/home/wjj/prediction-project/outputs/';
+cd(save_folder);
 
+% can index this for array jobs
+videos = {frames_bushes, frames_fish, frames_leaves, frames_opticflow, ...
+	  frames_water};
 %% params
 tbegin = now;
 frames = 3;
@@ -12,7 +19,7 @@ video = frames_opticflow;
 hiddenUnits = 200;
 batchsize = 1;
 numepochs = 50;
-seenSamplesFactor = .25;
+seenSamplesFactor = .1;
 saveOut = true;
 timedate = strrep(datestr(tbegin), ' ', '_');
 saveName = strcat(timedate, '_HU',num2str(hiddenUnits), '_nstim',...
