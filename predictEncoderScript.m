@@ -1,18 +1,21 @@
-%% loading
-load '../videos/natural_movies_20s_clips_nogamma_frames.mat';
-addpath(genpath('/Users/wjj/Dropbox/research/uc/palmer/learners/'));
+
+% can index this for array jobs
+videos = {frames_bushes, frames_fish, frames_leaves, frames_opticflow, ...
+	  frames_water};
 
 %% params
+stimnum = 4; % comment out if specify with array job
+
 tbegin = now;
 frames = 3;
 rows = 15;
 cols = 15;
-nstim = 100;
-video = frames_opticflow;
+nstim = 100000;
+video = videos{stimnum};
 hiddenUnits = 200;
 batchsize = 1;
-numepochs = 50;
-seenSamplesFactor = .25;
+numepochs = 100;
+seenSamplesFactor = .1;
 saveOut = true;
 timedate = strrep(datestr(tbegin), ' ', '_');
 saveName = strcat(timedate, '_HU',num2str(hiddenUnits), '_nstim',...
