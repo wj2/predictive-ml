@@ -1,24 +1,20 @@
-%% loading
-videos_fname = 'natural_movies_20s_clips_nogamma_frames.mat';
-load(strcat('/home/wjj/prediction-project/videos/', videos_fname));
-addpath(genpath('/home/wjj/prediction-project/dlt'));
-addpath(genpath('/home/wjj/prediction-project/pe'));
-save_folder = '/home/wjj/prediction-project/outputs/';
-cd(save_folder);
 
 % can index this for array jobs
 videos = {frames_bushes, frames_fish, frames_leaves, frames_opticflow, ...
 	  frames_water};
+
 %% params
+stimnum = 4; % comment out if specify with array job
+
 tbegin = now;
 frames = 3;
 rows = 15;
 cols = 15;
-nstim = 100;
-video = frames_opticflow;
+nstim = 100000;
+video = videos{stimnum};
 hiddenUnits = 200;
 batchsize = 1;
-numepochs = 50;
+numepochs = 100;
 seenSamplesFactor = .1;
 saveOut = true;
 timedate = strrep(datestr(tbegin), ' ', '_');

@@ -11,10 +11,10 @@ function [ storage ] = predictiveEncoder( dataset, testSet, varargin)
 parser = inputParser;
 parser.addRequired('dataset', @iscell);
 parser.addRequired('testSet', @isnumeric);
-parser.addParamValue('hiddenUnits', 200, @isnumeric);
-parser.addParamValue('batchsize', 1, @isnumeric);
-parser.addParamValue('numepochs', 50, @isnumeric);
-parser.addParamValue('seenSamplesFactor', .1, @isnumeric);
+parser.addParameter('hiddenUnits', 200, @isnumeric);
+parser.addParameter('batchsize', 1, @isnumeric);
+parser.addParameter('numepochs', 50, @isnumeric);
+parser.addParameter('seenSamplesFactor', .1, @isnumeric);
 parser.parse(dataset, testSet, varargin{:});
 
 dataset = parser.Results.dataset;
