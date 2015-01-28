@@ -1,4 +1,4 @@
-function [ runs ] = splitTestAndTrain( data, testSet )
+function [ runs ] = splitTestAndTrain( data, testSet, varargin )
 %splitTestAndTrain : splits dataset into testing and training sets
 % the data is split s.t each element is in the test set exactly once
 %  in:
@@ -8,9 +8,16 @@ function [ runs ] = splitTestAndTrain( data, testSet )
 %  out:
 %   runs - 1 / testSet x 2 cell array; left column is training set, right 
 %     column in same column is test set corresponding to that training set
+parser = inputParser;
+parser.addRequired('data', @iscell);
+parser.addRequired('testSet', @isnumeric);
+parser.addParameter('numRuns', 1 / testSet, @isnumeric);
+parser.parse(data, testSet, varargin{:});
 
+data = parser.Results.data;
+testSet = parser.Results.testSet;
+sections = parser.Results.numRuns;
 
-sections = 1 / testSet;
 sectionSize = testSet*length(data);
 runs = cell(sections, 2);
 for rotation = 1:sections

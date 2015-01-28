@@ -15,6 +15,7 @@ parser.addParameter('hiddenUnits', 200, @isnumeric);
 parser.addParameter('batchsize', 1, @isnumeric);
 parser.addParameter('numepochs', 50, @isnumeric);
 parser.addParameter('seenSamplesFactor', .1, @isnumeric);
+parser.addParameter('numRuns', 1 / testSet, @isnumeric);
 parser.parse(dataset, testSet, varargin{:});
 
 dataset = parser.Results.dataset;
@@ -22,7 +23,8 @@ testSet = parser.Results.testSet;
 hiddenUnits = parser.Results.hiddenUnits;
 opts.batchsize = parser.Results.batchsize;
 opts.numepochs = parser.Results.numepochs;
-seenSamplesFactor = parser.Results.seenSamplesFactor; 
+seenSamplesFactor = parser.Results.seenSamplesFactor;
+numRuns = parser.Results.numRuns;
 
 d = length(dataset);
 pieceShape = size(dataset{1});
@@ -33,7 +35,7 @@ n = pieceShape(3);
 
 shuffData = dataset(randperm(d));
 % runs is 1 / testSet x 2; first row is training, second is test
-runs = splitTestAndTrain(shuffData, testSet);
+runs = splitTestAndTrain(shuffData, testSet, 'numRuns', numRuns);
 
 % we have 1 / testSet runs to go through
 % for each run, we want to train on the training set and then test the
@@ -48,7 +50,7 @@ runs = splitTestAndTrain(shuffData, testSet);
 
 % storage = cell(1, 1 / testSet);
 % storage = struct(1, 1 / testSet);
-for i = 1:(1 / testSet)
+for i = 1:numRuns
     % train on subset of data
     [train_x, train_y] = getXandY(runs{i, 1}, steps);
     nn = nnsetup([m*n*steps hiddenUnits m*n]);

@@ -26,7 +26,7 @@ stims = createMLStim(video, rows, cols, frames, nstim);
 %% do the thing
 out = predictiveEncoder(stims, .1, 'hiddenUnits',hiddenUnits,...
     'batchsize', batchsize, 'numepochs', numepochs,...
-    'seenSamplesFactor', seenSamplesFactor);
+    'seenSamplesFactor', seenSamplesFactor, 'numRuns',1);
 
 tend = now;
 timeElapsed = tend - tbegin;
