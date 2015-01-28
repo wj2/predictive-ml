@@ -11,8 +11,9 @@ tstarts = randi(size(movie, 1) - frames, 1, n);
 rstarts = randi(size(movie, 2) - rows, 1, n);
 cstarts = randi(size(movie, 3) - cols, 1, n);
 for i = 1:n
-    stims{i} = movie(tstarts:tstarts+frames-1, rstarts:rstarts+rows-1,...
-        cstarts:cstarts+cols-1);
+    stims{i} = movie(tstarts(i):tstarts(i)+frames-1, ...
+        rstarts(i):rstarts(i)+rows-1,...
+        cstarts(i):cstarts(i)+cols-1);
 end
 end
 
