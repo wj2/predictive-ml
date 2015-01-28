@@ -7,7 +7,7 @@ y = zeros(length(data), (dsize(1) - xframes)*dsize(2)*dsize(3));
 for i = length(data)
     d = data{i};
     xpre = d(1:xframes, :, :);
-    ypre = d(1:dsize(1) - xframes, :, :);
+    ypre = d(xframes:end, :, :);
     x(i, :) = reshape(xpre, 1, size(x, 2));
     y(i, :) = reshape(ypre, 1, size(y, 2));
 end
