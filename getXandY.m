@@ -4,10 +4,10 @@ function [ x, y ] = getXandY( data, xframes )
 dsize = size(data{1});
 x = zeros(length(data), (xframes*dsize(2)*dsize(3)));
 y = zeros(length(data), (dsize(1) - xframes)*dsize(2)*dsize(3));
-for i = length(data)
+for i = 1:length(data)
     d = data{i};
     xpre = d(1:xframes, :, :);
-    ypre = d(xframes:end, :, :);
+    ypre = d(xframes+1:end, :, :);
     x(i, :) = reshape(xpre, 1, size(x, 2));
     y(i, :) = reshape(ypre, 1, size(y, 2));
 end
