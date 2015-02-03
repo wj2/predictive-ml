@@ -15,6 +15,7 @@ for i = 1:n
     stims{i} = double(movie(tstarts(i):tstarts(i)+frames-1, ...
         rstarts(i):rstarts(i)+rows-1,...
         cstarts(i):cstarts(i)+cols-1)) ./ movieMax;
+    stims{i} = stims{i} - mean2(stims{i}) + .5;
 end
 end
 
