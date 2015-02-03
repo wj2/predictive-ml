@@ -4,15 +4,15 @@ videos = {frames_bushes, frames_fish, frames_leaves, frames_opticflow, ...
 	  frames_water};
 
 %% params
-stimnum = 4; % comment out if specify with array job
+% stimnum = 4; % comment out if specify with array job
 
 tbegin = now;
 frames = 3;
-rows = 15;
-cols = 15;
+rows = 10;
+cols = 10;
 nstim = 100000;
 video = videos{stimnum};
-hiddenUnits = 200;
+hiddenUnits = 100;
 batchsize = 1;
 numepochs = 100;
 seenSamplesFactor = .1;
