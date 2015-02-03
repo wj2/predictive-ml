@@ -23,24 +23,34 @@ hold off;
 %% make image of prediction vs truth
 figure(2); hold on;
 [merr, mindex] = min(seenSSError);
-title(sprintf('original vs predicted; seen; error=%f', merr));
 subplot(1, 2, 1);
 origIm = reshape(predOut.seen.orig(mindex, :), m, n);
 image(origIm, 'CDataMapping', 'scaled');
+title('original; seen');
+set(gca, 'XTickLabel', []);
+set(gca, 'YTickLabel', []);
 subplot(1, 2, 2);
 predIm = reshape(predOut.seen.predict(mindex, :), m, n);
 image(predIm, 'CDataMapping', 'scaled');
+title(sprintf('predicted; seen; error=%f', merr));
+set(gca, 'XTickLabel', []);
+set(gca, 'YTickLabel', []);
 hold off;
 
 figure(3); hold on;
 [merr, mindex] = min(unseenSSError);
-title(sprintf('original vs predicted; unseen; error=%f', merr));
 subplot(1, 2, 1);
 origIm = reshape(predOut.unseen.orig(mindex, :), m, n);
 image(origIm, 'CDataMapping', 'scaled');
+title('original; unseen');
+set(gca, 'XTickLabel', []);
+set(gca, 'YTickLabel', []);
 subplot(1, 2, 2);
 predIm = reshape(predOut.unseen.predict(mindex, :), m, n);
 image(predIm, 'CDataMapping', 'scaled');
+title(sprintf('predicted; unseen; error=%f', merr));
+set(gca, 'XTickLabel', []);
+set(gca, 'YTickLabel', []);
 hold off;
 
 %% make images of weights
@@ -52,8 +62,11 @@ reconnedDWeights = cell(numweights, 1);
 plotdim = ceil(sqrt(numweights));
 for i = 1:numweights 
    subplot(plotdim, plotdim, i);
-   [wm, dwm] = reconstructWeight(weights(i, 1:end-1), m, n, t);
+   [wm, dwm] = reconstructWeight(weights(i, 2:end), m, n, t);
    image(wm, 'CDataMapping', 'scaled');
+   set(gca, 'XTickLabel', []);
+   set(gca, 'YTickLabel', []);
+   colormap gray;
    reconnedWeights{i} = wm;
    reconnedDWeights{i} = dwm;
 end
@@ -61,7 +74,10 @@ hold off;
 figure(5); hold on;
 for i = 1:numweights
    subplot(plotdim, plotdim, i);
-   image(reconnedDWeights{i}, 'CDataMapping', 'scaled');
+   imagesc(reconnedDWeights{i});
+   set(gca, 'XTickLabel', []);
+   set(gca, 'YTickLabel', []);
+   colormap gray;
 end
 hold off;
 end
