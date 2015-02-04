@@ -1,4 +1,4 @@
-function [ stims ] = createMLStim( movie, rows, cols, frames, n )
+function [ stims ] = createMLStim( movie, rows, cols, frames, n, normfunc )
 %createMLStim : processes TxMxN natural movies for use in PE
 %   movies - TxMxN dim array
 %   rows - number of rows to include in stimulus patches
@@ -12,10 +12,10 @@ rstarts = randi(size(movie, 2) - rows, 1, n);
 cstarts = randi(size(movie, 3) - cols, 1, n);
 movieMax = double(max(movie(:)));
 for i = 1:n
-    stims{i} = double(movie(tstarts(i):tstarts(i)+frames-1, ...
+    stim = double(movie(tstarts(i):tstarts(i)+frames-1, ...
         rstarts(i):rstarts(i)+rows-1,...
         cstarts(i):cstarts(i)+cols-1)) ./ movieMax;
-    stims{i} = stims{i} - mean2(stims{i}) + .5;
+    stims{i} = normfunc(stim);
 end
 end
 

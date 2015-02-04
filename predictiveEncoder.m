@@ -16,6 +16,12 @@ parser.addParameter('batchsize', 1, @isnumeric);
 parser.addParameter('numepochs', 50, @isnumeric);
 parser.addParameter('seenSamplesFactor', .1, @isnumeric);
 parser.addParameter('numRuns', 1 / testSet, @isnumeric);
+parser.addParameter('pretrain', false, @islogical);
+parser.addParameter('prebatch', 5, @isnumeric);
+parser.addParameter('prepochs', 20, @isnumeric);
+parser.addParameter('alpha', .01, @isnumeric);
+parser.addParameter('l2decay', .00001, @isnumeric);
+parser.addParameter('actFunc', 'sigm');
 parser.parse(dataset, testSet, varargin{:});
 
 dataset = parser.Results.dataset;
@@ -25,6 +31,12 @@ opts.batchsize = parser.Results.batchsize;
 opts.numepochs = parser.Results.numepochs;
 seenSamplesFactor = parser.Results.seenSamplesFactor;
 numRuns = parser.Results.numRuns;
+pretrain = parser.Results.pretrain;
+prebatch = parser.Results.prebatch;
+prepochs = parser.Results.prepochs;
+l2dec = parser.Results.l2decay;
+alpha = parser.Results.alpha;
+actFunc = parser.Results.actFunc;
 
 d = length(dataset);
 pieceShape = size(dataset{1});
@@ -51,12 +63,26 @@ runs = splitTestAndTrain(shuffData, testSet, 'numRuns', numRuns);
 % storage = cell(1, 1 / testSet);
 % storage = struct(1, 1 / testSet);
 for i = 1:numRuns
-    % train on subset of data
     [train_x, train_y] = getXandY(runs{i, 1}, steps);
-    nn = nnsetup([m*n*steps hiddenUnits m*n]);
-    nn.activation_function = 'sigm';
-    nn.learningRate = .01;
-    nn.weightPenaltyL2 = .00001;
+    if pretrain
+        %% unsupervised pretraining
+        dbn.sizes = [hiddenUnits];
+        dopts.numepochs = prepochs;
+        dopts.batchsize = prebatch;
+        dopts.alpha = alpha;
+        dopts.momentum = 0;
+        dbn = dbnsetup(dbn, train_x, dopts);
+        dbn = dbntrain(dbn, train_x, dopts);
+        
+        nn = dbnunfoldtonn(dbn, m*n);
+    else
+        nn = nnsetup([m*n*steps hiddenUnits m*n]);
+    end
+    %% supervised training
+    % train on subset of data
+    nn.activation_function = actFunc;
+    nn.learningRate = alpha;
+    nn.weightPenaltyL2 = l2dec;
     [nn, L] = nntrain(nn, train_x, train_y, opts);
     
     % test on unseen data
@@ -72,6 +98,7 @@ for i = 1:numRuns
     
     storage(i).net.trainedNet = nn;
     storage(i).net.trainingSSError = L;
+    storage(i).stim = runs(i, :);
     storage(i).unseen.error = nnUS.e;
     storage(i).unseen.sserror = nnUS.L;
     storage(i).unseen.orig = test_y;
