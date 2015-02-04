@@ -56,7 +56,7 @@ for i = 1:numRuns
     nn = nnsetup([m*n*steps hiddenUnits m*n]);
     nn.activation_function = 'sigm';
     nn.learningRate = .01;
-    nn.weightPenaltyL2 = .00001;
+    nn.weightPenaltyL2 = .000001;
     [nn, L] = nntrain(nn, train_x, train_y, opts);
     
     % test on unseen data
