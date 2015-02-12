@@ -4,7 +4,7 @@ videos = {frames_bushes, frames_fish, frames_leaves, frames_opticflow, ...
 	  frames_water};
 
 %% params
-stimnum = 4; % comment out if specify with array job
+%stimnum = 3; % comment out if specify with array job
 
 tbegin = now;
 %% general params
@@ -13,7 +13,7 @@ rows = 10;
 cols = 10;
 nstim = 100;
 video = videos{stimnum};
-hiddenUnits = 100;
+hiddenUnits = 300;
 numruns = 1;
 saveOut = true;
 normfunc = @nfMean3Std;
@@ -26,7 +26,7 @@ seenSamplesFactor = .1;
 %% unsupervised pretrain params
 pretrain = true;
 prebatch = 5;
-prepochs = 50;
+prepochs = 150;
 
 %% naming 
 timedate = strrep(datestr(tbegin), ' ', '_');
