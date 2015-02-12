@@ -83,6 +83,7 @@ for i = 1:numRuns
     nn.activation_function = actFunc;
     nn.learningRate = alpha;
     nn.weightPenaltyL2 = l2dec;
+    % nn.nonSparsityPenalty = 1;
     [nn, L] = nntrain(nn, train_x, train_y, opts);
     
     % test on unseen data
