@@ -60,8 +60,7 @@ runs = splitTestAndTrain(shuffData, testSet, 'numRuns', numRuns);
 % *with* the encoder (that is, xi) -- ||xi - yi||^2, nn.e stores xi - yi or
 % something
 
-% storage = cell(1, 1 / testSet);
-% storage = struct(1, 1 / testSet);
+storage = cell(1, 1 / testSet);
 for i = 1:numRuns
     [train_x, train_y] = getXandY(runs{i, 1}, steps);
     if pretrain
@@ -96,17 +95,17 @@ for i = 1:numRuns
     rstrain_y = train_y(randomRows, :);
     nnS = nnff(nn, rstrain_x, rstrain_y);
     
-    storage(i).net.trainedNet = nn;
-    storage(i).net.trainingSSError = L;
-    storage(i).stim = runs(i, :);
-    storage(i).unseen.error = nnUS.e;
-    storage(i).unseen.sserror = nnUS.L;
-    storage(i).unseen.orig = test_y;
-    storage(i).unseen.predict = nnUS.a{end};
-    storage(i).seen.error = nnS.e;
-    storage(i).seen.sserror = nnS.L;
-    storage(i).seen.orig = rstrain_y;
-    storage(i).seen.predict = nnS.a{end};
+    storage{i}.net.trainedNet = nn;
+    storage{i}.net.trainingSSError = L;
+    storage{i}.stim = runs(i, :);
+    storage{i}.unseen.error = nnUS.e;
+    storage{i}.unseen.sserror = nnUS.L;
+    storage{i}.unseen.orig = test_y;
+    storage{i}.unseen.predict = nnUS.a{end};
+    storage{i}.seen.error = nnS.e;
+    storage{i}.seen.sserror = nnS.L;
+    storage{i}.seen.orig = rstrain_y;
+    storage{i}.seen.predict = nnS.a{end};
 end
 end
 
