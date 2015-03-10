@@ -16,8 +16,8 @@ cents = getRFCenters(RF);
 spks = [];
 flmov = [];
 for i = vids
-    spksdat = binned(:, :, neuron, vid);
-    mov = movs{vid};
+    spksdat = binned(:, :, neuron, i);
+    mov = movs{i};
     mov = permute(mov, [2, 3, 1]);
     spksdat = permute(spksdat, [2, 1]);
 
