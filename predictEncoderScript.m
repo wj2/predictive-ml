@@ -4,7 +4,7 @@ videos = {frames_bushes, frames_fish, frames_leaves, frames_opticflow, ...
 	  frames_water};
 
 %% params
-%stimnum = 3; % comment out if specify with array job
+stimnum = 1; % comment out if specify with array job
 
 tbegin = now;
 %% general params

@@ -1,6 +1,4 @@
 function [ wm, dwm ] = reconstructWeight( wv, m, n, t )
-%UNTITLED5 Summary of this function goes here
-%   Detailed explanation goes here
 wm = zeros(m, n*t);
 dwm = zeros(m, n*(t-1));
 wmpre = reshape(wv, t, m, n);

@@ -70,6 +70,8 @@ for i = 1:numRuns
         dopts.batchsize = prebatch;
         dopts.alpha = alpha;
         dopts.momentum = 0;
+        disp(min(train_x(:)));
+        disp(max(train_x(:)));
         dbn = dbnsetup(dbn, train_x, dopts);
         dbn = dbntrain(dbn, train_x, dopts);
         
@@ -95,10 +97,13 @@ for i = 1:numRuns
     rstrain_x = train_x(randomRows, :);
     rstrain_y = train_y(randomRows, :);
     nnS = nnff(nn, rstrain_x, rstrain_y);
+    testedseenvids = runs{i, 1};
+    testedseenvids = testedseenvids{randomRows};
     
     storage{i}.net.trainedNet = nn;
     storage{i}.net.trainingSSError = L;
     storage{i}.stim = runs(i, :);
+    storage{i}.testedseenstim = testedseenvids;
     storage{i}.unseen.error = nnUS.e;
     storage{i}.unseen.sserror = nnUS.L;
     storage{i}.unseen.orig = test_y;
