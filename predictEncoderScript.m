@@ -1,4 +1,4 @@
-
+addpath(genpath('DeepLearnToolbox'));
 % can index this for array jobs
 videos = {frames_bushes, frames_fish, frames_leaves, frames_opticflow, ...
 	  frames_water};
@@ -11,7 +11,7 @@ tbegin = now;
 frames = 3;
 rows = 10;
 cols = 10;
-nstim = 100;
+nstim = 100000;
 video = videos{stimnum};
 hiddenUnits = 300;
 numruns = 1;

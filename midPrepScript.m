@@ -25,5 +25,7 @@ for i = vids
     spks = [spks; s];
     flmov = [flmov, m];
 end
+
+%% do mid
 res = find_mid(flmov, spks, @(x) x, savefile, 2, false);
 

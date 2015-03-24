@@ -4,15 +4,15 @@ function [  ] = visualizePrediction( predOut, m, n, t )
 
 %% make histograms of error
 figure(); hold on;
-
-subplot(2, 1, 1);
 seenSSError = sumSqErrorByTrial(predOut.seen.error);
+unseenSSError = sumSqErrorByTrial(predOut.unseen.error);
+maxE = max(max(seenSSError), max(unseenSSError));
+subplot(2, 1, 1);
 histogram(seenSSError);
 title(sprintf('sum squared error for %i trained trials; m=%.2f, s=%.2f', ... 
     length(seenSSError), mean(seenSSError), std(seenSSError))); 
 
 subplot(2, 1, 2);
-unseenSSError = sumSqErrorByTrial(predOut.unseen.error);
 histogram(unseenSSError);
 title(sprintf('sum squared error for %i untrained trials; m=%.2f, s=%.2f', ... 
     length(unseenSSError), mean(unseenSSError), std(unseenSSError))); 
@@ -35,47 +35,6 @@ origvid = unseenstim{mindex};
 predframe = predOut.unseen.predict(mindex, :);
 plottitle = sprintf('sse = %.2f; unseen', merr);
 plotPredVTru(origvid, predframe, plottitle);
-
-% figure(); hold on;
-% [merr, mindex] = min(seenSSError);
-% subplot(3, 2, 1); 
-% origIm = reshape(predOut.seen.orig(mindex, :), m, n);
-% imagesc(origIm);
-% colormap gray;
-% title('original; seen');
-% set(gca, 'XTickLabel', []);
-% set(gca, 'YTickLabel', []);
-% 
-% subplot(3, 2, 2); 
-% predIm = reshape(predOut.seen.predict(mindex, :), m, n);
-% imagesc(predIm);
-% colormap gray;
-% title(sprintf('predicted; seen; error=%f', merr));
-% set(gca, 'XTickLabel', []);
-% set(gca, 'YTickLabel', []);
-% hold off;
-% 
-% figure(); hold on;
-% [merr, mindex] = min(unseenSSError);
-% subplot(1, 2, 1); 
-% origIm = reshape(predOut.unseen.orig(mindex, :), m, n);
-% imagesc(origIm);
-% colormap gray; 
-% axis equal;
-% title('original; unseen');
-% set(gca, 'XTickLabel', []);
-% set(gca, 'YTickLabel', []);
-% 
-% subplot(1, 2, 2); 
-% predIm = reshape(predOut.unseen.predict(mindex, :), m, n);
-% imagesc(predIm);
-% colormap gray;
-% axis equal;
-% pbaspect('manual');
-% title(sprintf('predicted; unseen; error=%f', merr));
-% set(gca, 'XTickLabel', []);
-% set(gca, 'YTickLabel', []);
-% hold off;
 
 %% make images of weights
 figure(); hold on;
@@ -108,11 +67,12 @@ end
 hold off;
 
 %% get optic flow error
-[oferr, pfl, ofl] = opticFlowError(predOut.unseen.predict, ...
+[oferr, pfl, ofl, sfl] = opticFlowError(predOut.unseen.predict, ...
     predOut.stim{2});
 absmean = @(x) mean2(abs(x));
 mofl = cell2mat(cellfun(absmean, ofl, 'UniformOutput', false));
 mpfl = cell2mat(cellfun(absmean, pfl, 'UniformOutput', false));
+msfl = cell2mat(cellfun(absmean, sfl, 'UniformOutput', false));
 figure; hold on;
 scatter(mofl, mpfl, 'filled', 'LineWidth', 1);
 xlabel('mean original flow');
@@ -133,6 +93,28 @@ ylabel('all mse');
 hold off;
 figure; hold on;
 scatter(mofl, unseenSSError, 'filled', 'LineWidth', 1);
+xlabel('mean flow');
+ylabel('mse');
+hold off;
+
+figure; hold on;
+scatter(msfl, mpfl, 'filled', 'LineWidth', 1);
+xlabel('seen flow');
+ylabel('predicted flow');
+maxmean = max(max(msfl), max(mpfl));
+xlim([0, maxmean]);
+ylim([0, maxmean]);
+hold off;
+
+figure; hold on;
+scatter(msfl, mofl, 'filled', 'LineWidth', 1);
+xlabel('seen flow');
+ylabel('original flow');
+maxmean = max(max(msfl), max(mofl));
+xlim([0, maxmean]);
+ylim([0, maxmean]);
+hold off;
+
 
 end
 
