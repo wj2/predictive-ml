@@ -1,5 +1,5 @@
 %% pretraining meanstd norm, stim 2
-load('../mlout/06-Feb-2015_18:09:57_HU300_nstim100000_3x10x10_btchsz1_nepo100_stimnum2.mat');
+load('~/data/palmer-mlout/06-Feb-2015_18:09:57_HU300_nstim100000_3x10x10_btchsz1_nepo100_stimnu');
 out_nopre_meanstd = out;
 visualizePrediction(out_nopre_meanstd, 10, 10, 2);
 

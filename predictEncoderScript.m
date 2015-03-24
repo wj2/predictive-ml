@@ -1,4 +1,4 @@
-
+addpath(genpath('DeepLearnToolbox'));
 % can index this for array jobs
 videos = {frames_bushes, frames_fish, frames_leaves, frames_opticflow, ...
 	  frames_water};

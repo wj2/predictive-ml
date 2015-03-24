@@ -13,11 +13,15 @@ for i = 1:(t - 1)
     colormap gray;
     set(gca, 'XTickLabel', []);
     set(gca, 'YTickLabel', []);
+    xlim([1, n]);
+    ylim([1, m]);
     caxis([minf, maxf]);
     hold off;
     subplot(2, t, i+t); hold on;
     imagesc(reshape(origvid(i, :, :), m, n));
     colormap gray;
+    xlim([1, n]);
+    ylim([1, m]);
     set(gca, 'XTickLabel', []);
     set(gca, 'YTickLabel', []);
     caxis([minf, maxf]);
@@ -26,9 +30,12 @@ end
 subplot(2, t, t); hold on;
 imagesc(reshape(origvid(t, :, :), m, n));
 colormap gray;
+xlim([1, n]);
+ylim([1, m]);    
 set(gca, 'XTickLabel', []);
 set(gca, 'YTickLabel', []);
 caxis([minf, maxf]);
+title('original');
 hold off;
 
 subplot(2, t, t+t); hold on;
@@ -37,6 +44,9 @@ set(gca, 'XTickLabel', []);
 set(gca, 'YTickLabel', []);
 caxis([minf, maxf]);
 imagesc(predpic);
+xlim([1, n]);
+ylim([1, m]);    
+title('predicted');
 hold off;
 hold off;
 end
