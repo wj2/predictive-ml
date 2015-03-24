@@ -23,7 +23,7 @@ for i = vids
     mov = permute(mov, [2, 3, 1]);
     spksdat = permute(spksdat, [2, 1]);
 
-    [s, m] = prepMatMID(spksdat, mov, cents(neuron, :)*10);
+    [s, m] = prepMatMID(spksdat, mov, cents(neuron, :)*10, 'width', 25);
     spks = [spks; s];
     flmov = [flmov, m];
 end
