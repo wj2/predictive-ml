@@ -11,7 +11,9 @@ movs = {frames_bushes, frames_water, frames_leaves, frames_fish, ...
 %% creating
 neuron = 1;
 % vids = [2, 3, 4, 5];
-% savename = 'mid_vAll';
+vids = [2, 4];
+savename = 'mid_vAll';
+frms = 2;
 progfile = strcat(savename, '_prog.mat');
 compfile = strcat(savename, '_comp.mat');
 cents = getRFCenters(RF);
@@ -23,7 +25,8 @@ for i = vids
     mov = permute(mov, [2, 3, 1]);
     spksdat = permute(spksdat, [2, 1]);
 
-    [s, m] = prepMatMID(spksdat, mov, cents(neuron, :)*10, 'width', 25);
+    [s, m] = prepMatMID(spksdat, mov, cents(neuron, :)*10, 'width', 25, ...
+        'frames', frms);
     spks = [spks; s];
     flmov = [flmov, m];
 end

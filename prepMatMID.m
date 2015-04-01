@@ -23,6 +23,7 @@ mov = parser.Results.mov;
 cent = parser.Results.cent;
 width = parser.Results.width;
 windbool = parser.Results.window;
+frms = parser.Results.frames;
 
 % save windowedMov in binary format
 if windbool
@@ -36,7 +37,7 @@ if size(mov, 3) < size(spks, 1)
         size(spks, 1) - size(normWindMov, 3))*mean2(normWindMov);
     normWindMov = cat(3, normWindMov, buffmat);
 end
-normFlatMov = flattenMovie(normWindMov);
+normFlatMov = flattenMovie(normWindMov, 'frames', frms);
 dupWMov = repmat(normFlatMov, [1, size(spks, 2)]);
 
 % concat spikes onto each other and save as spks per line
