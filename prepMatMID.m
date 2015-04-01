@@ -4,6 +4,7 @@ parser = inputParser;
 parser.addRequired('spks', @isnumeric);
 parser.addRequired('mov', @isnumeric);
 parser.addRequired('cent', @isnumeric);
+parser.addParameter('window', true, @islogical);
 parser.addParameter('width', 10, @isnumeric);
 parser.addParameter('frames', 1, @isnumeric);
 parser.parse(spks, mov, cent, varargin{:});
@@ -21,9 +22,14 @@ spks = parser.Results.spks;
 mov = parser.Results.mov;
 cent = parser.Results.cent;
 width = parser.Results.width;
+windbool = parser.Results.window;
 
 % save windowedMov in binary format
-windowedMov = getWindowedMov(mov, cent, width);
+if windbool
+    windowedMov = getWindowedMov(mov, cent, width);
+else
+    windowedMov = mov;
+end
 normWindMov = nfMean3Std(windowedMov);
 if size(mov, 3) < size(spks, 1)
     buffmat = ones(size(normWindMov, 1), size(normWindMov, 2), ...

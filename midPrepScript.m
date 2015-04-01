@@ -10,8 +10,10 @@ movs = {frames_bushes, frames_water, frames_leaves, frames_fish, ...
 
 %% creating
 neuron = 1;
-vids = [2, 3, 4, 5];
-savefile = '../mid-preps/neuron1-leaves2/n1-lvs2.mid';
+% vids = [2, 3, 4, 5];
+% savename = 'mid_vAll';
+progfile = strcat(savename, '_prog.mat');
+compfile = strcat(savename, '_comp.mat');
 cents = getRFCenters(RF);
 spks = [];
 flmov = [];
@@ -21,11 +23,10 @@ for i = vids
     mov = permute(mov, [2, 3, 1]);
     spksdat = permute(spksdat, [2, 1]);
 
-    [s, m] = prepMatMID(spksdat, mov, cents(neuron, :)*10);
+    [s, m] = prepMatMID(spksdat, mov, cents(neuron, :)*10, 'width', 25);
     spks = [spks; s];
     flmov = [flmov, m];
 end
 
-%% do mid
-res = find_mid(flmov, spks, @(x) x, savefile, 2, false);
-
+res = find_mid(flmov, spks, @(x) x, progfile, 2, false);
+save(compfile, 'res');
