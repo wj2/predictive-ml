@@ -1,6 +1,7 @@
 function [ train, test ] = makeTrainAndTest( stim, resp, n, trainsize )
 
-shuffind = randperm(size(stim, 1) - n) + n;
+inds = setdiff(takeSpksAndSample(resp), 1:n);
+shuffind = inds(randperm(length(inds)));
 partition = floor(trainsize*length(shuffind));
 trainind = shuffind(1:partition);
 testind = shuffind(partition+1:end);
@@ -21,5 +22,7 @@ for i = 1:length(testind)
     test{i, 1} = s;
     test{i, 2} = r;
 end
+disp(size(train));
+disp(size(test));
 end
 
